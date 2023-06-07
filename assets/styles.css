@@ -2,3 +2,14 @@
     width: 20em;
     height: 20em;
 }
+
+.container {
+    width: 5em;
+    height: 10em;
+    border: 3px solid hsl(0, 54%, 14%);
+    background-color: antiquewhite;
+    z-index: 999999;
+    position: absolute;
+    top: 4em;
+    left: 4em;
+}

@@ -1,5 +1,7 @@
 const texta = document.getElementById('input');
 const btn = document.getElementById('btn');
+const createBtn = document.getElementById('createBtn');
+import {createElement} from './content';
 
 /*if ('speechSynthesis' in window) {
   // Crear un objeto de síntesis de voz
@@ -35,3 +37,7 @@ if ('speechSynthesis' in window) {
     synthesis.speak(utterance);
   })
 }
+
+createBtn.addEventListener('click', () => {
+  createElement();
+});
