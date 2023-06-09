@@ -2,6 +2,8 @@ const synth = window.speechSynthesis;
 
 const createBtn = document.getElementById('createBtn');
 const voiceSelect = document.getElementById('model');
+const rateElmnt = document.getElementById('rate');
+const pitchElmnt  = document.getElementById('pitch');
 let voices;
 
 function populateVoiceList() {
@@ -11,7 +13,7 @@ function populateVoiceList() {
   for (let i = 0; i < voices.length; i++) {
     const option = document.createElement("option");
     option.textContent = `${voices[i].name}`;
-    option.value = i;
+    option.value = voices[i].name;
     
     const lang = voices[i].lang;
     if (!optgroups[lang]) {
@@ -33,5 +35,35 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 populateVoiceList();
 
 createBtn.addEventListener('click', () => {
-  // populateVoiceList();
+  let currentVoice = {};
+
+  for (let i = 0; i < voices.length; i++) {
+    if(voices[i].name === voiceSelect.value){
+      currentVoice = voices[i];
+    }
+  }
+
+  const objt = {
+    'voiceName': {
+      'default': currentVoice.default,
+      'lang': currentVoice.lang,
+      'localService': currentVoice.localService,
+      'name': currentVoice.name,
+      'voiceURI': currentVoice.voiceURI
+    },
+    'rate': rateElmnt.value,
+    'pitch': pitchElmnt.value
+  }
+
+
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var activeTab = tabs[0];
+    // var message = [objt];
+    // var message =[ "Hola, mundo!", objt]; // El valor que deseas pasar a content.js
+  
+    // Envía un mensaje a content.js
+    chrome.tabs.sendMessage(activeTab.id, { data: objt });
+  });
+
+  window.close();
 })
