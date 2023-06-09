@@ -1,9 +1,5 @@
-#root {
-    width: 20em;
-    height: 20em;
-}
 
-.container {
+.containerTTS {
     width: 5em;
     height: 10em;
     border: 3px solid hsl(0, 54%, 14%);
@@ -12,4 +8,9 @@
     position: absolute;
     top: 4em;
     left: 4em;
+}
+
+::selection {
+    background-color: hsl(24, 73%, 17%) !important; /* Cambia el color de fondo de la selección */
+    color: whitesmoke !important;
 }

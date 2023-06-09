@@ -1,7 +1,6 @@
 const texta = document.getElementById('input');
 const btn = document.getElementById('btn');
 const createBtn = document.getElementById('createBtn');
-import {createElement} from './content';
 
 /*if ('speechSynthesis' in window) {
   // Crear un objeto de síntesis de voz
@@ -19,25 +18,50 @@ import {createElement} from './content';
   synthesis.speak(utterance);
 }*/
 
-if ('speechSynthesis' in window) {
-  // Crear un objeto de síntesis de voz
-  const  synthesis = window.speechSynthesis;
-  
-  btn.addEventListener('click', () => {
-    // Crear un nuevo objeto de discurso
-    const  utterance = new SpeechSynthesisUtterance(texta.value);
+function handleSpeak(selObj) {
 
-    // Configurar opciones adicionales (opcional)
-    utterance.lang = 'en-En'; // Configurar el idioma
-    utterance.rate = 2; // Configurar la velocidad (valor por defecto: 1.0)
-    utterance.pitch = .2; // Configurar el tono (valor por defecto: 1.0)
+  const utterance = new SpeechSynthesisUtterance(selObj.text);
+  utterance.lang = 'en-En';
+  utterance.rate = 2.5;
+  utterance.pitch = 0;
+
+  window.speechSynthesis.speak(utterance);
+};
 
 
-    // Iniciar la síntesis de voz
-    synthesis.speak(utterance);
-  })
+const handleSelect = () =>  {
+  const getSelectedText = () => {
+  const selObj = window.getSelection();
+  // console.log(selObj);
+  return {
+    text: selObj.toString(),
+    anchorNode: selObj.anchorNode,
+    anchorOffset: selObj.anchorOffset,
+    extentNode: selObj.extentNode,
+    extentOffset: selObj.extentOffset,
+    focusNode: selObj.focusNode,
+    focusOffset: selObj.focusOffset,
+    isCollapsed: selObj.isCollapsed
+  };
 }
 
-createBtn.addEventListener('click', () => {
-  createElement();
-});
+  chrome.tabs.query(
+    {
+      active:true, 
+      currentWindow: true
+    },
+    tabs => {
+      chrome.scripting.executeScript(
+        {
+          target: {tabId: tabs[0].id},
+          function: getSelectedText
+        },
+        results => {
+          handleSpeak(results[0].result);
+        }
+      );
+    }
+  );
+};
+
+createBtn.addEventListener('click', handleSelect);
