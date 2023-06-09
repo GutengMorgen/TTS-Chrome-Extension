@@ -7,11 +7,22 @@
         <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
-        <div id="root">
-            <header>Text To Speech</header>
-            <textarea id="input"></textarea>
-            <button id="btn">speech</button>
-            <button id="createBtn">create</button>
+        <div id="container">
+            <header><h1>Settings</h1></header>
+            <label for="model">Model:</label>
+            <select name="model" id="model">
+                <option value="default">default</option>
+            </select>
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender">
+                <option value="male">male</option>
+                <option value="female">female</option>
+            </select>
+            <label for="vol">Rate:</label>
+            <input type="range" id="vol" name="vol" min="0" max="4">
+            <label for="vol">Pitch:</label>
+            <input type="range" id="vol" name="vol" min="0" max="2">
+            <button id="createBtn">Save Settings</button>
         </div>
     </body>
     <script src="./script.js"></script>
