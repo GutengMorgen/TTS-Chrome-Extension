@@ -1,7 +1,7 @@
 const synth = window.speechSynthesis;
 
 const createBtn = document.getElementById('createBtn');
-const voiceSelect = document.querySelector("select");
+const voiceSelect = document.getElementById('model');
 let voices;
 
 function populateVoiceList() {
@@ -12,7 +12,7 @@ function populateVoiceList() {
     const option = document.createElement("option");
     option.textContent = `${voices[i].name}`;
     option.value = i;
-
+    
     const lang = voices[i].lang;
     if (!optgroups[lang]) {
       optgroups[lang] = document.createElement("optgroup");
@@ -35,5 +35,3 @@ populateVoiceList();
 createBtn.addEventListener('click', () => {
   // populateVoiceList();
 })
-
-// populateVoiceList();
