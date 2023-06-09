@@ -1,0 +1,61 @@
+body {
+    background-color: hsl(264.63deg 39.94% 9.57%);
+    color: whitesmoke;
+}
+
+#container {
+    width: 26em;
+    display: grid;
+    gap: 1em;
+}
+
+label, button {
+    font-size: smaller;
+    font-weight: bolder;
+    font-family: system-ui;
+}
+
+button {
+    background-color: hsl(0, 0%, 70%);
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px;
+}
+
+button:active {
+    border: 1px solid whitesmoke;
+}
+
+
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type="range"] {
+    -webkit-appearance: none;
+     appearance: none;
+     background: transparent;
+     cursor: pointer;
+ }
+ 
+ /* Removes default focus */
+ input[type="range"]:focus {
+   outline: none;
+ }
+ 
+ /***** Chrome, Safari, Opera and Edge Chromium styles *****/
+ /* slider track */
+ input[type="range"]::-webkit-slider-runnable-track {
+    background-color:  hsl(25, 89%, 7%);
+    height: 0.5rem;  
+ }
+ 
+ /* slider thumb */
+ input[type="range"]::-webkit-slider-thumb {
+   -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -8px; /* Centers thumb on the track */
+ 
+    /*custom styles*/
+    background-color: #b4b4b4;
+    height: 1.4rem;
+    width: 1rem;
+ }

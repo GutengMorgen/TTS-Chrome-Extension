@@ -1,10 +1,10 @@
-const synth = window.speechSynthesis;
-
 const createBtn = document.getElementById('createBtn');
 const voiceSelect = document.getElementById('model');
 const rateElmnt = document.getElementById('rate');
 const pitchElmnt  = document.getElementById('pitch');
+
 let voices;
+const synth = window.speechSynthesis;
 
 function populateVoiceList() {
   voices = synth.getVoices();
@@ -58,12 +58,37 @@ createBtn.addEventListener('click', () => {
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var activeTab = tabs[0];
-    // var message = [objt];
-    // var message =[ "Hola, mundo!", objt]; // El valor que deseas pasar a content.js
-  
-    // Envía un mensaje a content.js
+
     chrome.tabs.sendMessage(activeTab.id, { data: objt });
   });
 
   window.close();
 })
+
+chrome.storage.sync.get(['model', 'rate', 'pitch'], function(result) {
+  // Restaura los valores seleccionados en los elementos select e input
+  if(result.model){
+    voiceSelect.value = result.model;
+  }
+  if (result.rate) {
+      rateElmnt.value = result.rate;
+  }
+  if (result.pitch) {
+      pitchElmnt.value = result.pitch;
+  }
+});
+
+// Maneja los cambios en los elementos select e input y guarda los valores
+voiceSelect.addEventListener('change', function() {
+  const selectedModel = voiceSelect.value;
+  chrome.storage.sync.set({ 'model': selectedModel });
+});
+rateElmnt.addEventListener('input', function() {
+  const selectedRate = rateElmnt.value;
+  chrome.storage.sync.set({ 'rate': selectedRate });
+});
+
+pitchElmnt.addEventListener('input', function() {
+  const selectedPitch = pitchElmnt.value;
+  chrome.storage.sync.set({ 'pitch': selectedPitch });
+});

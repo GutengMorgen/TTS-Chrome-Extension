@@ -4,23 +4,22 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="./popupStyle.css">
     </head>
     <body>
         <div id="container">
-            <header><h1>Settings</h1></header>
-
             <label for="model">Model:</label>
             <select name="model" id="model"></select>
 
             <label for="vol">Rate:</label>
-            <input type="range" id="rate" name="rate" min="0" max="4">
+            <input type="range" id="rate" name="rate" min="0" max="4" step="0.1">
 
             <label for="vol">Pitch:</label>
-            <input type="range" id="pitch" name="pitch" min="0" max="2">
+            <input type="range" id="pitch" name="pitch" min="0" max="2" step="0.1">
 
             <button id="createBtn">Save Settings</button>
         </div>
     </body>
     <script src="./script.js"></script>
+    <!-- <script src="./storage.js"></script> -->
 </html>
