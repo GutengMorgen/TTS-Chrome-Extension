@@ -1,4 +1,5 @@
 const createBtn = document.getElementById('createBtn');
+const testingBtn = document.getElementById('testingVoice');
 const voiceSelect = document.getElementById('model');
 const rateElmnt = document.getElementById('rate');
 const pitchElmnt  = document.getElementById('pitch');
@@ -12,7 +13,8 @@ function populateVoiceList() {
 
   for (let i = 0; i < voices.length; i++) {
     const option = document.createElement("option");
-    option.textContent = `${voices[i].name}`;
+    let filter = (voices[i].name).split('-')[0];
+    option.textContent = `${filter}`;
     option.setAttribute('data-lang', voices[i].lang)
     option.value = voices[i].name;
     
@@ -51,7 +53,37 @@ createBtn.addEventListener('click', () => {
   });
 
   window.close();
-})
+});
+
+testingBtn.addEventListener('click', () => {
+  const utterance = new SpeechSynthesisUtterance();
+  const _lang = voiceSelect.selectedOptions[0].getAttribute('data-lang')
+  let text = 'Default text';
+  if(_lang  === 'es-MX'){
+    text = 'Esta es mi estupida voz, 1 2 3 4 5';
+  }
+  else{
+    text = 'This is my stupid voice, 1 2 3 4 5';
+  }
+
+  utterance.voice = voices.find(v => v.name === voiceSelect.selectedOptions[0].value);
+  utterance.lang = _lang;
+  utterance.rate = rateElmnt.value;
+  utterance.pitch = pitchElmnt.value;
+  utterance.text = text;
+
+  utterance.onstart = () => {
+    testingBtn.disabled = true;
+  };
+  
+  utterance.onend = () => {
+    testingBtn.disabled = false;
+  };
+
+
+
+  speechSynthesis.speak(utterance);
+});
 
 
 //local storage
@@ -77,7 +109,6 @@ rateElmnt.addEventListener('input', function() {
   const selectedRate = rateElmnt.value;
   chrome.storage.sync.set({ 'rate': selectedRate });
 });
-
 pitchElmnt.addEventListener('input', function() {
   const selectedPitch = pitchElmnt.value;
   chrome.storage.sync.set({ 'pitch': selectedPitch });

@@ -4,7 +4,7 @@ body {
 }
 
 #container {
-    width: 26em;
+    width: 19em;
     display: grid;
     gap: 1em;
 }
@@ -23,10 +23,18 @@ button {
     font-size: small;
     font-weight: 400;
     font-family: system-ui;
+    cursor: pointer;
+    transition: transform 0.15s ease;
 }
 
 button:active {
-    border: 1px solid whitesmoke;
+    transform: scale(0.96);
+    transition: transform 0.15s ease;
+}
+
+button:disabled {
+    cursor: default;
+    background-color: hsl(0, 0%, 50%);
 }
 
 select {
@@ -35,6 +43,14 @@ select {
     font-size: small;
     font-weight: 400;
     font-family: system-ui;
+    outline: none;
+    cursor: pointer;
+}
+
+option:hover {
+    cursor: pointer;
+    background:hsl(338, 33%, 9%);
+    color:hsl(0, 0%, 70%);
 }
 
 /********** Range Input Styles **********/
