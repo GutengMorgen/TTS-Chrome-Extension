@@ -35,6 +35,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 populateVoiceList();
 
 createBtn.addEventListener('click', () => {
+
   let currentVoice = {};
 
   for (let i = 0; i < voices.length; i++) {
@@ -55,6 +56,8 @@ createBtn.addEventListener('click', () => {
     'pitch': pitchElmnt.value
   }
 
+  // localStorage.setItem('selObjt', '2434234');
+  console.log(localStorage.getItem('objt'));
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var activeTab = tabs[0];
@@ -65,30 +68,30 @@ createBtn.addEventListener('click', () => {
   window.close();
 })
 
-chrome.storage.sync.get(['model', 'rate', 'pitch'], function(result) {
-  // Restaura los valores seleccionados en los elementos select e input
-  if(result.model){
-    voiceSelect.value = result.model;
-  }
-  if (result.rate) {
-      rateElmnt.value = result.rate;
-  }
-  if (result.pitch) {
-      pitchElmnt.value = result.pitch;
-  }
-});
+// chrome.storage.sync.get(['model', 'rate', 'pitch'], function(result) {
+//   // Restaura los valores seleccionados en los elementos select e input
+//   if(result.model){
+//     voiceSelect.value = result.model;
+//   }
+//   if (result.rate) {
+//       rateElmnt.value = result.rate;
+//   }
+//   if (result.pitch) {
+//       pitchElmnt.value = result.pitch;
+//   }
+// });
 
-// Maneja los cambios en los elementos select e input y guarda los valores
-voiceSelect.addEventListener('change', function() {
-  const selectedModel = voiceSelect.value;
-  chrome.storage.sync.set({ 'model': selectedModel });
-});
-rateElmnt.addEventListener('input', function() {
-  const selectedRate = rateElmnt.value;
-  chrome.storage.sync.set({ 'rate': selectedRate });
-});
+// // Maneja los cambios en los elementos select e input y guarda los valores
+// voiceSelect.addEventListener('change', function() {
+//   const selectedModel = voiceSelect.value;
+//   chrome.storage.sync.set({ 'model': selectedModel });
+// });
+// rateElmnt.addEventListener('input', function() {
+//   const selectedRate = rateElmnt.value;
+//   chrome.storage.sync.set({ 'rate': selectedRate });
+// });
 
-pitchElmnt.addEventListener('input', function() {
-  const selectedPitch = pitchElmnt.value;
-  chrome.storage.sync.set({ 'pitch': selectedPitch });
-});
+// pitchElmnt.addEventListener('input', function() {
+//   const selectedPitch = pitchElmnt.value;
+//   chrome.storage.sync.set({ 'pitch': selectedPitch });
+// });

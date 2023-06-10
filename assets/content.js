@@ -40,14 +40,15 @@ function handleSpeak(settingObjt) {
 }
 
 
-const handleKeyDown = (e) => {
-  if(selObj.toString() === '') return;
-  // console.log(settings);
-  // console.log(e);
-  if(e.altKey && e.keyCode === 83){
-    speechSynthesis.speak(handleSpeak(settings));
-  }
-};
+// const handleKeyDown = (e) => {
+//   // if(selObj.toString() === '') return;
+
+//   if(e.altKey && e.keyCode === 83){
+//     // speechSynthesis.speak(handleSpeak(settings));
+//   }
+//   var objt = window.localStorage.getItem('objt');
+//   console.log(objt); // Hacer algo con el valor recuperado
+// };
 
 
-document.addEventListener('keydown', handleKeyDown);
+// document.addEventListener('keydown', handleKeyDown);

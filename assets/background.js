@@ -1,7 +1,16 @@
+// localStorage.setItem('objt', 20000);
 
-// const handleKeyPress = (e) => {
-//     console.log(e);
 
-// };
+function createContextMenu(){
+    chrome.contextMenus.removeAll(function(){});
+    chrome.contextMenus.create({
+        "id": "myContextMenu",
+        'type':'normal',
+        'title':'Readme - Text to Speech',
+        'contexts':['selection']
+    });
+}
 
-// document.addEventListener('keypress', handleKeyPress);
+document.addEventListener('DOMContentLoaded', () => {
+    createContextMenu();
+});
