@@ -13,13 +13,11 @@ function handleSpeak(settingObjt) {
   if(settingObjt){
 
 
-    // Asignar la primera voz disponible a utterance.voice
     utterance.voiceURI = settingObjt.voiceName.voiceURI;
     utterance.name = settingObjt.voiceName.name;
     utterance.lang = settingObjt.voiceName.lang;
     utterance.localService = settingObjt.voiceName.localService;
 
-    // console.log(window.speechSynthesis.getVoices(), settingObjt.voiceName);
     utterance.rate = settingObjt.rate;
     utterance.pitch = settingObjt.pitch;
     utterance.text = selObj.toString();
@@ -33,22 +31,7 @@ function handleSpeak(settingObjt) {
     utterance.rate = 2.5;
     utterance.pitch = 0;
     utterance.text = selObj.toString();
-    // console.log(utterance);
   
     return utterance;
   }
 }
-
-
-// const handleKeyDown = (e) => {
-//   // if(selObj.toString() === '') return;
-
-//   if(e.altKey && e.keyCode === 83){
-//     // speechSynthesis.speak(handleSpeak(settings));
-//   }
-//   var objt = window.localStorage.getItem('objt');
-//   console.log(objt); // Hacer algo con el valor recuperado
-// };
-
-
-// document.addEventListener('keydown', handleKeyDown);
