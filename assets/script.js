@@ -13,6 +13,7 @@ function populateVoiceList() {
   for (let i = 0; i < voices.length; i++) {
     const option = document.createElement("option");
     option.textContent = `${voices[i].name}`;
+    option.setAttribute('data-lang', voices[i].lang)
     option.value = voices[i].name;
     
     const lang = voices[i].lang;
@@ -36,7 +37,9 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 createBtn.addEventListener('click', () => {
 
   const objt = {
-    'voiceName': voiceSelect.value,
+    'voiceName': voiceSelect.selectedOptions[0].value,
+    'voice': {},
+    'lang': voiceSelect.selectedOptions[0].getAttribute('data-lang'),
     'rate': rateElmnt.value,
     'pitch': pitchElmnt.value
   }
@@ -47,5 +50,5 @@ createBtn.addEventListener('click', () => {
     chrome.tabs.sendMessage(activeTab.id, { data: objt });
   });
 
-  window.close();
+  // window.close();
 })
