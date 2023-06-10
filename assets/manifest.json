@@ -7,15 +7,10 @@
         "128" : "logo.png"
     },
 
-    "background": {
-        "scripts": ["background.js"],
-        "persistent": false
-    },
-
     "permissions": [
         "tabs",
         "activeTab",
-        "contextMenus"
+        "storage"
     ],
 
     "content_scripts": [

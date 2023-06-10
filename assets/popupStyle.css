@@ -1,5 +1,5 @@
 body {
-    background-color: hsl(264.63deg 39.94% 9.57%);
+    background-color: hsl(338, 33%, 9%);
     color: whitesmoke;
 }
 
@@ -9,7 +9,7 @@ body {
     gap: 1em;
 }
 
-label, button {
+label {
     font-size: smaller;
     font-weight: bolder;
     font-family: system-ui;
@@ -20,12 +20,22 @@ button {
     color: rgb(0, 0, 0);
     border: none;
     padding: 10px;
+    font-size: small;
+    font-weight: 400;
+    font-family: system-ui;
 }
 
 button:active {
     border: 1px solid whitesmoke;
 }
 
+select {
+    background-color: hsl(0, 0%, 70%);
+    padding: 6px 0px;
+    font-size: small;
+    font-weight: 400;
+    font-family: system-ui;
+}
 
 /********** Range Input Styles **********/
 /*Range Reset*/
@@ -44,7 +54,7 @@ input[type="range"] {
  /***** Chrome, Safari, Opera and Edge Chromium styles *****/
  /* slider track */
  input[type="range"]::-webkit-slider-runnable-track {
-    background-color:  hsl(25, 89%, 7%);
+    background-color: hsl(340, 21%, 14%);
     height: 0.5rem;  
  }
  
