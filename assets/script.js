@@ -31,27 +31,12 @@ function populateVoiceList() {
 if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
 }
-
-populateVoiceList();
+// populateVoiceList();
 
 createBtn.addEventListener('click', () => {
 
-  let currentVoice = {};
-
-  for (let i = 0; i < voices.length; i++) {
-    if(voices[i].name === voiceSelect.value){
-      currentVoice = voices[i];
-    }
-  }
-
   const objt = {
-    'voiceName': {
-      'default': currentVoice.default,
-      'lang': currentVoice.lang,
-      'localService': currentVoice.localService,
-      'name': currentVoice.name,
-      'voiceURI': currentVoice.voiceURI
-    },
+    'voiceName': voiceSelect.value,
     'rate': rateElmnt.value,
     'pitch': pitchElmnt.value
   }
