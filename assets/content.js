@@ -1,4 +1,4 @@
-let settings;
+let settings, ResultStorage;
 const selObj = window.getSelection();
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -14,22 +14,28 @@ function chromeStorage(callback) {
 const handleUtterance = (settingObjt) => {
 
   const voices = window.speechSynthesis.getVoices();
+  console.log(ResultStorage.toggle);
   
-  chromeStorage(result => {
-    console.log(result);
-    // Aquí puedes realizar acciones adicionales con el resultado
-  });
-  
-  if(!settingObjt){
+  if(ResultStorage.toggle === 'All Pages' && !settingObjt){
     settingObjt = {
-      lang: 'en-GB',
-      rate: 1.5,
-      pitch: 1,
-      voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
-    };
+      lang: ResultStorage.model.data_lang,
+      rate: ResultStorage.rate,
+      pitch: ResultStorage.pitch,
+      voice: voices.find(voice => voice.name === ResultStorage.model.data_name)
+    }
   }
   else{
-    settingObjt.voice = voices.find(voice => voice.name === settingObjt.voiceName);
+    if(!settingObjt){
+      settingObjt = {
+        lang: 'en-GB',
+        rate: 1.5,
+        pitch: 1,
+        voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
+      };
+    }
+    else{
+      settingObjt.voice = voices.find(voice => voice.name === settingObjt.voiceName);
+    }
   }
   
 
@@ -45,7 +51,12 @@ const handleUtterance = (settingObjt) => {
 
 
 const handleKeyDown = (e) => {
+  
   if(selObj.toString === '') return;
+  chromeStorage(result => {
+    ResultStorage = result;
+    // console.log(result);
+  });
 
   if(e.altKey){
     if(e.keyCode === 65)

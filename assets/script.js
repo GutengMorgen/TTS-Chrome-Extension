@@ -74,7 +74,7 @@ SaveBtn.addEventListener('click', () => {
     chrome.tabs.sendMessage(activeTab.id, { data: objt });
   });
 
-  // window.close();
+  window.close();
 });
 
 testingBtn.addEventListener('click', () => {
