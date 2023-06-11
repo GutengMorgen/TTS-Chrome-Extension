@@ -44,8 +44,10 @@ const handleKeyDown = (e) => {
   if(selObj.toString === '') return;
 
   if(e.altKey){
+    //solucion de mierda
+    chromeStorage(result => ResultStorage = result);
+
     if(e.keyCode === 65){
-      chromeStorage(result => ResultStorage = result);
       speechSynthesis.speak(handleUtterance(settings));
     }
     
