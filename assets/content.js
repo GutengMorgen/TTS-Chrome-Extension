@@ -2,65 +2,52 @@ let settings, ResultStorage;
 const selObj = window.getSelection();
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  settings = request.data; // Obtiene el valor enviado desde popup.js
-  // console.log(settings);
+  settings = request.data; // Obtiene el valor enviado desde script.js
 });
 
-function chromeStorage(callback) {
-  chrome.storage.sync.get(['toggle', 'model', 'rate', 'pitch'], result => callback(result));
-}
-
-
-const handleUtterance = (settingObjt) => {
-
+const handleUtterance = (utteranceObject) => {
   const voices = window.speechSynthesis.getVoices();
-  console.log(ResultStorage.toggle);
   
-  if(ResultStorage.toggle === 'All Pages' && !settingObjt){
-    settingObjt = {
+  if(ResultStorage){
+    utteranceObject = {
       lang: ResultStorage.model.data_lang,
       rate: ResultStorage.rate,
       pitch: ResultStorage.pitch,
-      voice: voices.find(voice => voice.name === ResultStorage.model.data_name)
+      voice: voices.find(v => v.name === ResultStorage.model.data_name)
     }
   }
-  else{
-    if(!settingObjt){
-      settingObjt = {
-        lang: 'en-GB',
-        rate: 1.5,
-        pitch: 1,
-        voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
-      };
-    }
-    else{
-      settingObjt.voice = voices.find(voice => voice.name === settingObjt.voiceName);
-    }
+  else{ //default properties
+    utteranceObject = {
+      lang: 'en-GB',
+      rate: 1.5,
+      pitch: 1,
+      voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
+    };
   }
-  
 
   const utterance = new SpeechSynthesisUtterance();
-  utterance.voice = settingObjt.voice;
-  utterance.lang = settingObjt.lang;
-  utterance.rate = settingObjt.rate;
-  utterance.pitch = settingObjt.pitch;
+  utterance.voice = utteranceObject.voice;
+  utterance.lang = utteranceObject.lang;
+  utterance.rate = utteranceObject.rate;
+  utterance.pitch = utteranceObject.pitch;
   utterance.text = selObj.toString();
 
   return utterance;
 }
 
+//get properties
+function chromeStorage(callback) {
+  chrome.storage.sync.get(['model', 'rate', 'pitch'], result => callback(result));
+}
 
 const handleKeyDown = (e) => {
-  
   if(selObj.toString === '') return;
-  chromeStorage(result => {
-    ResultStorage = result;
-    // console.log(result);
-  });
 
   if(e.altKey){
-    if(e.keyCode === 65)
+    if(e.keyCode === 65){
+      chromeStorage(result => ResultStorage = result);
       speechSynthesis.speak(handleUtterance(settings));
+    }
     
     else if (e.keyCode === 83)
       speechSynthesis.cancel();

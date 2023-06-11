@@ -59,31 +59,13 @@ function CustomSelect() {
   }
 }
 
-SaveBtn.addEventListener('click', () => {
-  const objt = {
-    voice: {},
-    voiceName: ContainerTrigget.children[0].getAttribute('data-name'),
-    lang: ContainerTrigget.children[0].getAttribute('data-lang'),
-    rate: rateElmnt.value,
-    pitch: pitchElmnt.value
-  }
-
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    var activeTab = tabs[0];
-
-    chrome.tabs.sendMessage(activeTab.id, { data: objt });
-  });
-
-  window.close();
-});
-
 testingBtn.addEventListener('click', () => {
-
   const utterance = new SpeechSynthesisUtterance();
+  
   const _lang = ContainerTrigget.children[0].getAttribute('data-lang');
   let text = 'Default text';
-  if(_lang  === 'es-MX') text = 'Esta e mi estupida voz, 1 2 3 4 5';
 
+  if(_lang  === 'es-MX') text = 'Esta e mi estupida voz, 1 2 3 4 5';
   else text = 'This is my stupid voice, 1 2 3 4 5';
 
   utterance.voice = voices.find(v => v.name === ContainerTrigget.children[0].getAttribute('data-name'));
