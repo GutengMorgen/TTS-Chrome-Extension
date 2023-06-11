@@ -3,39 +3,28 @@ const selObj = window.getSelection();
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   settings = request.data; // Obtiene el valor enviado desde popup.js
-  // console.log(settings);
 });
 
 function chromeStorage(callback) {
-  chrome.storage.sync.get(['toggle', 'model', 'rate', 'pitch'], result => callback(result));
+  chrome.storage.sync.get(['model', 'rate', 'pitch'], result => callback(result));
 }
-
 
 const handleUtterance = (settingObjt) => {
 
   const voices = window.speechSynthesis.getVoices();
-  console.log(ResultStorage.toggle);
+
+  console.log(ResultStorage);
   
-  if(ResultStorage.toggle === 'All Pages' && !settingObjt){
+  if(!settingObjt){
     settingObjt = {
-      lang: ResultStorage.model.data_lang,
-      rate: ResultStorage.rate,
-      pitch: ResultStorage.pitch,
-      voice: voices.find(voice => voice.name === ResultStorage.model.data_name)
-    }
+      lang: 'en-GB',
+      rate: 1.5,
+      pitch: 1,
+      voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
+    };
   }
   else{
-    if(!settingObjt){
-      settingObjt = {
-        lang: 'en-GB',
-        rate: 1.5,
-        pitch: 1,
-        voice: voices.find(voice => voice.name === 'Microsoft George - English (United Kingdom)')
-      };
-    }
-    else{
-      settingObjt.voice = voices.find(voice => voice.name === settingObjt.voiceName);
-    }
+    settingObjt.voice = voices.find(voice => voice.name === settingObjt.voiceName);
   }
   
 
@@ -53,10 +42,7 @@ const handleUtterance = (settingObjt) => {
 const handleKeyDown = (e) => {
   
   if(selObj.toString === '') return;
-  chromeStorage(result => {
-    ResultStorage = result;
-    // console.log(result);
-  });
+  chromeStorage(result => ResultStorage = result);
 
   if(e.altKey){
     if(e.keyCode === 65)
