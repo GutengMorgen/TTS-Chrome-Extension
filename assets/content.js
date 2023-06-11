@@ -3,10 +3,22 @@ const selObj = window.getSelection();
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   settings = request.data; // Obtiene el valor enviado desde popup.js
+  // console.log(settings);
 });
 
+function chromeStorage(callback) {
+  chrome.storage.sync.get(['toggle', 'model', 'rate', 'pitch'], result => callback(result));
+}
+
+
 const handleUtterance = (settingObjt) => {
+
   const voices = window.speechSynthesis.getVoices();
+  
+  chromeStorage(result => {
+    console.log(result);
+    // Aquí puedes realizar acciones adicionales con el resultado
+  });
   
   if(!settingObjt){
     settingObjt = {
@@ -37,7 +49,8 @@ const handleKeyDown = (e) => {
 
   if(e.altKey){
     if(e.keyCode === 65)
-      speechSynthesis.speak(handleUtterance(settings))
+      speechSynthesis.speak(handleUtterance(settings));
+    
     else if (e.keyCode === 83)
       speechSynthesis.cancel();
   }

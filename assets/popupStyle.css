@@ -1,6 +1,7 @@
 body {
     background-color: hsl(338, 33%, 9%);
     color: whitesmoke;
+    user-select: none;
 }
 
 #container {
@@ -51,6 +52,31 @@ option:hover {
     cursor: pointer;
     background:hsl(338, 33%, 9%);
     color:hsl(0, 0%, 70%);
+}
+
+.settings {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid hsl(0, 0%, 60%);;
+    width: 41%;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+
+}
+
+#current {
+    margin-top: 12px;
+    margin-right: 6px;
+}
+
+#all {
+    margin-left: 6px;
+}
+
+.setting_select {
+    background-color: hsl(0, 0%, 70%);
+    color: black;
 }
 
 /********** Range Input Styles **********/

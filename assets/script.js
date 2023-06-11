@@ -6,10 +6,10 @@ const myTable = document.getElementById('mytable');
 
 let voices;
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = testingCustomSelect;
+  speechSynthesis.onvoiceschanged = CustomSelect;
 }
 
-function testingCustomSelect() {
+function CustomSelect() {
   voices = window.speechSynthesis.getVoices();
   let thElement = {}, tbodyElement = {};
   let filter;
@@ -61,11 +61,11 @@ function testingCustomSelect() {
 
 SaveBtn.addEventListener('click', () => {
   const objt = {
-    'voice': {},
-    'voiceName': ContainerTrigget.children[0].getAttribute('data-name'),
-    'lang': ContainerTrigget.children[0].getAttribute('data-lang'),
-    'rate': rateElmnt.value,
-    'pitch': pitchElmnt.value
+    voice: {},
+    voiceName: ContainerTrigget.children[0].getAttribute('data-name'),
+    lang: ContainerTrigget.children[0].getAttribute('data-lang'),
+    rate: rateElmnt.value,
+    pitch: pitchElmnt.value
   }
 
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -74,7 +74,7 @@ SaveBtn.addEventListener('click', () => {
     chrome.tabs.sendMessage(activeTab.id, { data: objt });
   });
 
-  window.close();
+  // window.close();
 });
 
 testingBtn.addEventListener('click', () => {
@@ -83,7 +83,7 @@ testingBtn.addEventListener('click', () => {
   const _lang = ContainerTrigget.children[0].getAttribute('data-lang');
   let text = 'Default text';
   if(_lang  === 'es-MX') text = 'Esta e mi estupida voz, 1 2 3 4 5';
-  
+
   else text = 'This is my stupid voice, 1 2 3 4 5';
 
   utterance.voice = voices.find(v => v.name === ContainerTrigget.children[0].getAttribute('data-name'));
