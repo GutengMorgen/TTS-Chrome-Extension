@@ -1,27 +1,32 @@
 const createBtn = document.getElementById('createBtn');
 const testingBtn = document.getElementById('testingVoice');
-const voiceSelect = document.getElementById('model');
+// const voiceSelect = document.getElementById('model');
 const rateElmnt = document.getElementById('rate');
 const pitchElmnt  = document.getElementById('pitch');
+const myTable = document.getElementById('mytable');
 
 let voices;
 const synth = window.speechSynthesis;
 
-function populateVoiceList() {
+/*function populateVoiceList() {
   voices = synth.getVoices();
   let optgroups = {};
+  let filter;
 
   for (let i = 0; i < voices.length; i++) {
+
+    // ----------set options atributes
     const option = document.createElement("option");
-    let filter = (voices[i].name).split('-')[0];
+    filter = (voices[i].name).split('-')[0];
     option.textContent = `${filter}`;
-    option.setAttribute('data-lang', voices[i].lang)
     option.value = voices[i].name;
+    option.setAttribute('data-lang', voices[i].lang)
+    // ----------
     
     const lang = voices[i].lang;
     if (!optgroups[lang]) {
       optgroups[lang] = document.createElement("optgroup");
-      optgroups[lang].label = lang;
+      optgroups[lang].label = lang.toUpperCase();
     }
     optgroups[lang].appendChild(option);
   }
@@ -29,19 +34,74 @@ function populateVoiceList() {
   for (const lang in optgroups) {
     voiceSelect.appendChild(optgroups[lang]);
   }
-}
+}*/
 
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = populateVoiceList;
+  speechSynthesis.onvoiceschanged = testingCustomSelect;
 }
-// populateVoiceList();
+
+
+function testingCustomSelect() {
+  voices = synth.getVoices();
+  let thElement = {}, tbodyElement = {};
+  let filter;
+  let lang;
+
+  for (let i = 0; i < voices.length; i++) {
+    //filter
+    filter = (voices[i].name).split('-')[0];
+
+    // set atributes of td elements
+    const tdElement = document.createElement('td');
+    tdElement.classList.add('AsOption');
+    tdElement.setAttribute('data-lang', voices[i].lang);
+    tdElement.setAttribute('data-name', voices[i].name);
+    tdElement.textContent = filter;
+    // set atributes of td elements
+
+  
+    lang = voices[i].lang;
+    if(!thElement[lang]){
+      tbodyElement[lang] = document.createElement('tbody');
+      thElement[lang] = document.createElement('th');
+      thElement[lang].textContent = lang.toUpperCase();
+    }
+    tbodyElement[lang].appendChild(thElement[lang]);
+    tbodyElement[lang].appendChild(tdElement);
+
+  }
+
+  for (const lang in tbodyElement) {
+    myTable.appendChild(tbodyElement[lang]);
+
+    for (const child of tbodyElement[lang].children){
+
+      if(child.tagName.toLowerCase() === 'th'){
+
+        child.setAttribute('colspan', '3');
+        const tr = document.createElement('tr');
+        tr.appendChild(child);
+
+        tbodyElement[lang].insertBefore(tr, tbodyElement[lang].firstChild);
+
+        break;
+      }
+    }
+
+  }
+
+  // for (const tbody of  myTable.childNodes){
+
+  //   console.log(tbody);
+  // }
+
+}
 
 createBtn.addEventListener('click', () => {
-
   const objt = {
-    'voiceName': voiceSelect.selectedOptions[0].value,
+    'voiceName': ContainerTrigget.children[0].getAttribute('data-name'),
     'voice': {},
-    'lang': voiceSelect.selectedOptions[0].getAttribute('data-lang'),
+    'lang': ContainerTrigget.children[0].getAttribute('data-lang'),
     'rate': rateElmnt.value,
     'pitch': pitchElmnt.value
   }
@@ -56,8 +116,9 @@ createBtn.addEventListener('click', () => {
 });
 
 testingBtn.addEventListener('click', () => {
+
   const utterance = new SpeechSynthesisUtterance();
-  const _lang = voiceSelect.selectedOptions[0].getAttribute('data-lang')
+  const _lang = ContainerTrigget.children[0].getAttribute('data-lang');
   let text = 'Default text';
   if(_lang  === 'es-MX'){
     text = 'Esta es mi estupida voz, 1 2 3 4 5';
@@ -66,7 +127,7 @@ testingBtn.addEventListener('click', () => {
     text = 'This is my stupid voice, 1 2 3 4 5';
   }
 
-  utterance.voice = voices.find(v => v.name === voiceSelect.selectedOptions[0].value);
+  utterance.voice = voices.find(v => v.name === ContainerTrigget.children[0].getAttribute('data-name'));
   utterance.lang = _lang;
   utterance.rate = rateElmnt.value;
   utterance.pitch = pitchElmnt.value;
@@ -80,36 +141,5 @@ testingBtn.addEventListener('click', () => {
     testingBtn.disabled = false;
   };
 
-
-
   speechSynthesis.speak(utterance);
-});
-
-
-//local storage
-chrome.storage.sync.get(['model', 'rate', 'pitch'], function(result) {
-  // Restaura los valores seleccionados en los elementos select e input
-  if(result.model){
-    voiceSelect.value = result.model;
-  }
-  if (result.rate) {
-    rateElmnt.value = result.rate;
-  }
-  if (result.pitch) {
-    pitchElmnt.value = result.pitch;
-  }
-});
-
-// Maneja los cambios en los elementos select e input y guarda los valores
-voiceSelect.addEventListener('change', function() {
-  const selectedModel = voiceSelect.value;
-  chrome.storage.sync.set({ 'model': selectedModel });
-});
-rateElmnt.addEventListener('input', function() {
-  const selectedRate = rateElmnt.value;
-  chrome.storage.sync.set({ 'rate': selectedRate });
-});
-pitchElmnt.addEventListener('input', function() {
-  const selectedPitch = pitchElmnt.value;
-  chrome.storage.sync.set({ 'pitch': selectedPitch });
 });

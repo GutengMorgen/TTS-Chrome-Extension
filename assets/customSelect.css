@@ -1,0 +1,99 @@
+/* div que contendra los otros div */
+.selector_wrapper
+{
+    width: 0;
+    position: relative;
+    user-select: none;
+}
+
+/* div predeterminado */
+#select_trigger
+{
+    width: 16em;
+    display: block;
+    background-color: hsl(0, 0%, 70%);
+    border: 1px solid rgb(116 116 116);
+    color: black;
+    font-family: system-ui;
+    font-weight: 400;
+    font-size: 13px;
+    padding: 9px 8px;
+}
+
+/* div que se ocultara */
+#select_options
+{
+    display: none;
+    position: absolute;
+    top: 110%;
+    padding: 4px 0;
+    background-color: hsl(0, 0%, 70%);
+    border: 1px solid hsl(0, 0%, 60%);
+}
+
+/* div que establecera la altura maxima y activara el scrollbar */
+#container_options
+{
+    width: 18.6em;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+#trigger::after
+{
+    content: '▼';
+    display: inline;
+    float: right;
+    font-size: 9px;
+}
+
+/* classes que se les asignara a los elementos desde js */
+.show
+{
+    display: block !important;
+}
+.selected
+{
+    background-color: hsl(338, 33%, 9%) !important;
+    color: whitesmoke;
+}
+
+/* estilos para la tabla y sus elementos */
+#mytable {
+    width: -webkit-fill-available;
+    text-align: center;
+    font-family: system-ui;
+    font-size: 12px;
+    font-weight: 400;
+    color: black;
+}
+
+th, td {
+    border: none;
+}
+
+th {
+    background: hsl(0, 0%, 67%);
+    color: black;
+}
+
+td {
+    padding: 6px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+td:hover{
+    background-color: hsl(0, 0%, 65%);
+}
+
+
+/* modifica el scrool-bar */
+#container_options::-webkit-scrollbar
+{
+    width: 3px;
+}
+
+#container_options::-webkit-scrollbar-thumb {
+  background: #c2c2c2; 
+}
